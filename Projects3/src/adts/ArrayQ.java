@@ -32,15 +32,15 @@ public class ArrayQ<E> implements QueueInterface<E> {
     
 
 	@Override
-	public void enqueue(E element) {
-			if(front>0) {
-				rear=0;
-			}
-            
-            rear++;
-			data[rear]=element;
-			
-			numElements++;	        
+public void enqueue(E element) {
+		
+		if (numElements == data.length) {
+	        // Queue is full, cannot enqueue
+	        return;
+	    }
+	    data[rear] = element;
+	    rear = (rear + 1) % data.length;
+	    numElements++;
 	    }
 	
 
@@ -48,10 +48,10 @@ public class ArrayQ<E> implements QueueInterface<E> {
 	public E dequeue() 
 	{
 		
-        E element = data[front];
-        front ++;
-        numElements--;
-        return element;
+	    E element = data[front];
+	    data[front] = null;
+	    front = (front + 1) % data.length;
+	    return element;
     }
 	
 	 public E peek() 
