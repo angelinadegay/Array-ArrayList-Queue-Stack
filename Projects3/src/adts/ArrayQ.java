@@ -51,6 +51,7 @@ public void enqueue(E element) {
 	    E element = data[front];
 	    data[front] = null;
 	    front = (front + 1) % data.length;
+	     numElements--;
 	    return element;
     }
 	
