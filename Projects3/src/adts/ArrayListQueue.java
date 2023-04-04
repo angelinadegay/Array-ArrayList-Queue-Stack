@@ -2,6 +2,7 @@ package adts;
 
 import java.util.ArrayList;
 
+
 import interfaces.QueueInterface;
 
 public class ArrayListQueue<E> implements QueueInterface<E> {
@@ -14,18 +15,25 @@ public class ArrayListQueue<E> implements QueueInterface<E> {
     protected final int DEFAULT_CAPACITY = 10;
     
     public ArrayListQueue() {
-    	data = new ArrayList<>();
+    	data = new ArrayList<>(DEFAULT_CAPACITY);
     	capacity=DEFAULT_CAPACITY;
+   	 for (int i = 0; i < capacity; i++) {
+         data.add(null);
+     }
         front = 0;
         rear = 0;
         numElements=0;
     }
 
     public ArrayListQueue(int capacity) {
-        	data = new ArrayList<>();
+        data = new ArrayList<>(capacity);
          front=0;
          rear=0;
          this.capacity=capacity;
+    	 for (int i = 0; i < capacity; i++) {
+             data.add(null);
+         }
+         numElements=0;
     }
 
     @Override
@@ -36,21 +44,21 @@ public class ArrayListQueue<E> implements QueueInterface<E> {
     @Override
     public void enqueue(E element) {
         if (isFull()) {
-            return; // do nothing if the queue is full
+            return ;
         }
-    	if(front>0) {
-			rear=0;
-		}
-        data.add(rear,element);
+        data.set(rear, element);
+        rear = (rear + 1) % capacity;
         numElements++;
-        rear++;
+       
+     
     }
 
     @Override
     public E dequeue() {
 
         E element = data.get(front);
-        front++;
+        data.set(front, null);
+        front=(front+1) % capacity;
         numElements--;
         return element;
     }
