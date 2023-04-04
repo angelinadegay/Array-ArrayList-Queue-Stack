@@ -11,11 +11,28 @@ public class ArrayListStack<E> implements StackInterface<E> {
     protected ArrayList<E> data;
     protected int numElements;
     protected int top;
+    protected int capacity;
     protected  final int DEFAULT_CAPACITY = 10;
 
     public ArrayListStack() {
-        data = new ArrayList<>();
+        data = new ArrayList<>(DEFAULT_CAPACITY);
+        capacity=DEFAULT_CAPACITY;
+        for (int i = 0; i < capacity; i++) {
+            data.add(null);
+        }
         top=0;
+       
+        numElements=0;
+    }
+    public ArrayListStack(int capacity){
+        data = new ArrayList<>(capacity);
+        for (int i = 0; i < capacity; i++) {
+            data.add(null);
+        }
+        top=0;
+        this.capacity=capacity;
+        numElements=0;
+        
     }
 
     @Override
@@ -26,29 +43,37 @@ public class ArrayListStack<E> implements StackInterface<E> {
 
     @Override
     public void push(E element) {
-        data.add(top,element);
+    	if(isFull()) {
+    		return;
+    	}
+        data.set(top,element);
         top++;
         numElements++;
     }
 
     @Override
     public E pop() {
+    	if(isEmpty()) {
+    		return null;
+    	}
     	top--;
         E element = data.get(top);
+        data.set(top, null);
         numElements--;
         return element;
     }
 
     @Override
     public E peek() {
-  
+    	if (isEmpty()) {
+            return null; 
+        }
         return data.get(top - 1);
     }
 
 	@Override
 	public boolean isFull() {
-		// TODO Auto-generated method stub
-		return false;
+		return numElements==capacity;
 	}
 	@Override
 	public String toString() {
