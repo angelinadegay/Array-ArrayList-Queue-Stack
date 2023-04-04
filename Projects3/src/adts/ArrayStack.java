@@ -31,28 +31,31 @@ public class ArrayStack<E> implements StackInterface<E> {
 
     @Override
     public void push(E element) {
+    	if (isFull()) {
+    		return;
+    	}
     	data[top]=element;
     	top++;
     	numElements++;
-       
     }
-
-    @Override
-    public E pop() {
-    	top--;
-        E element = data[top];
-        numElements--;
-        return element;
-    }
-
-    @Override
-    public E peek() {
-
-        return data[top-1];
-    }
-
-    @Override
-    public String toString() {
+	@Override
+	public E pop() {
+	        if (isEmpty()) {
+	            return null;
+	        }
+	        top--;
+	        E element = data[top];
+	        numElements--;
+	        return element;
+	    }
+	@Override
+	public E peek() {
+		 if (isEmpty()) {
+	            return null;
+	        }
+	        return data[top - 1];
+	    }
+ public String toString() {
     	StringBuilder stackStr = new StringBuilder("\n--------------------\n");
 		
 		int ptr = numElements-1;
@@ -68,6 +71,10 @@ public class ArrayStack<E> implements StackInterface<E> {
 
 	@Override
 	public boolean isFull() {
-		return top == capacity;
+		return numElements == capacity;
 	}
+
 }
+	
+	
+
