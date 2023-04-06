@@ -11,11 +11,10 @@ public class ArrayQ<E> implements QueueInterface<E> {
     protected int initialCapacity;
     
     public ArrayQ() {
-    	data = (E[]) new Object[DEFAULT_CAPACITY];
+    	data= (E[]) new Object[DEFAULT_CAPACITY];
     	initialCapacity=DEFAULT_CAPACITY;
         front = 0;
-        //Initiating rear to -1 to avoid confusion with the first element in the array
-        rear = -1;
+        rear = 0;
         numElements=0;
     }
     		
@@ -23,8 +22,7 @@ public class ArrayQ<E> implements QueueInterface<E> {
     public ArrayQ(int capacity) {
         data= (E[]) new Object[capacity];
         front = 0;
-        //Initiating rear to -1 to avoid confusion with the first element in the array
-        rear = -1;
+        rear = 0;
         initialCapacity=capacity;
         numElements=0;
     }
@@ -32,7 +30,7 @@ public class ArrayQ<E> implements QueueInterface<E> {
     
 
 	@Override
-public void enqueue(E element) {
+	public void enqueue(E element) {
 		
 		if (numElements == data.length) {
 	        // Queue is full, cannot enqueue
@@ -51,8 +49,9 @@ public void enqueue(E element) {
 	    E element = data[front];
 	    data[front] = null;
 	    front = (front + 1) % data.length;
-	     numElements--;
+	    numElements--;
 	    return element;
+	   
     }
 	
 	 public E peek() 
@@ -61,40 +60,29 @@ public void enqueue(E element) {
 	  }
 	 
 
-	@Override
-	public boolean isEmpty() {// TODO Auto-generated method stub
-		return numElements==0;
-	}
+		@Override
+		public boolean isFull() {
+	        System.out.println("\n numElements_:" + numElements);
+	        System.out.println("\n initialCapacity_:" + initialCapacity);
+			return numElements==initialCapacity;
+		}
+		public String toString() {
+	        StringBuilder sb = new StringBuilder();
+	        String str = "";
+	        int current = front;
+	        sb.append("[");
+	        while (current != rear ) {
+	            sb.append(data[current] + " ");
+	            current = (current + 1) % data.length;
+	    }
+	        sb.append("]");
+	        return sb.toString();
+		}
 
-	@Override
-	public boolean isFull() {
-        System.out.println("\n numElements_:" + numElements);
-        System.out.println("\n initialCapacity_:" + initialCapacity);
-		return numElements==initialCapacity;
-	}
-	public String toString() {
-        StringBuilder sb = new StringBuilder();
-        String str = "";
-        int current = front;
-        System.out.println("\n numElements value: " + numElements);
-        System.out.println("\n front value: " + front);
-        System.out.println("\n rear value: " + rear);
-        System.out.println("\n DEFAULT_CAPACITY value: " + DEFAULT_CAPACITY);       
-        
-
-        System.out.println("\n data array: ");        
-       /* for (int i = 0; i < data.length; i++) {
-            str += data[i] + " ";
-        } */
-
-        while (current != rear) {            
-            str += data[current] + " "; 
-            //System.out.println("current " + current + " rear " + rear);    
-            current = (current + 1) % data.length;
-         }
-         str += data[current] + " "; 
-     
-        return str;
-    }
+		@Override
+		public boolean isEmpty() {
+			// TODO Auto-generated method stub
+			return numElements==0;
+		}
 
 }
